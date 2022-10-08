@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/FileContentIndex/read.lock
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/FileContentIndex/74ee621a-09ef-4e19-b981-8eac080d7399.vsidx
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/FileContentIndex/321bd388-6f82-4709-ad10-d4ef1f2ad566.vsidx
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/FileContentIndex/12e12b19-63f3-43d7-ab10-37a6d2968987.vsidx
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/FileContentIndex/0b157ec2-e0ab-4d68-9b62-80dc96b3ea66.vsidx
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/config/applicationhost.config
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/v17/.suo
+/P2P_PyJobPoster/.vs/P2P_PyJobPoster/DesignTimeBuild/.dtbcache.v2
