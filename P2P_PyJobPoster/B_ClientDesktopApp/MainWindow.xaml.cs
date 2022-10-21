@@ -26,58 +26,31 @@ namespace B_ClientDesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        ServiceHost serviceHost;
-        NetTcpBinding tcp;
-        int port;
-        string ip_address;
-        string name;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            InitializeServiceHost();
+
             testWebAPI();
         }
 
         private void testWebAPI()
         {
             //IPAddress iPAddress = GetIPAddress();
-            Client client = new Client(ip_address, port, name);
+            //Client client = new Client(ip_address, port, name);
 
-            RestClient restClient = new RestClient("https://localhost:44305/");
-            RestRequest restRequest = new RestRequest("api/Clients", Method.Post);
-            restRequest.AddBody(JsonConvert.SerializeObject(client));
+            //RestClient restClient = new RestClient("https://localhost:44305/");
+            //RestRequest restRequest = new RestRequest("api/Clients", Method.Post);
+            //restRequest.AddBody(JsonConvert.SerializeObject(client));
 
-            RestResponse restResponse = restClient.Execute(restRequest);
+            //RestResponse restResponse = restClient.Execute(restRequest);
 
-            Console.WriteLine(restResponse.Content);
-
-
-            //Client client = new Client(iPAddress.ToString(), )
+            //Console.WriteLine(restResponse.Content);
         }
 
-        private IPAddress GetIPAddress()
-        {
-            IPAddress[] hostAddresses = Dns.GetHostAddresses("");
 
-            IPHostEntry hostEntry = System.Net.Dns.GetHostEntry(Dns.GetHostName());
-            
-            return hostEntry.AddressList[0].MapToIPv4();
-        }
 
-        private void InitializeServiceHost()
-        {
-            port = 4000;
-            name = "Josh_PC";
-            tcp = new NetTcpBinding();
 
-            Client_Net client_Net = new Client_Net();
-            serviceHost = new ServiceHost(client_Net);
-
-            ip_address = "net.tcp://localhost/" + port;
-
-            serviceHost.AddServiceEndpoint(typeof(Client_Net_Interface), tcp, ip_address);
-            serviceHost.Open();
-        }
     }
 }
