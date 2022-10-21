@@ -55,3 +55,7 @@
 /P2P_PyJobPoster/A_WebServer/App_Date/clientDB.mdf
 /P2P_PyJobPoster/A_WebServer/App_Date/clientDB_log.ldf
 /P2P_PyJobPoster/A_WebServer/obj/Debug/A_WebServer.csproj.FileListAbsolute.txt
+P2P_PyJobPoster/B_ClientDesktopApp/obj/Debug/B_ClientDesktopApp.csproj.FileListAbsolute.txt
+P2P_PyJobPoster/B_ClientDesktopApp/obj/Debug/B_ClientDesktopApp_MarkupCompile.i.cache
+P2P_PyJobPoster/C_SwarmWebViewer/obj/Debug/net6.0/C_SwarmWebViewer.csproj.FileListAbsolute.txt
+P2P_PyJobPoster/C_SwarmWebViewer/obj/staticwebassets.pack.sentinel
