@@ -49,8 +49,14 @@ namespace B_ClientDesktopApp
             //Console.WriteLine(restResponse.Content);
         }
 
+        private void handleSubmit(object sender, RoutedEventArgs e)
+        {
 
+        }
 
+        private void handleGetStatus(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }
