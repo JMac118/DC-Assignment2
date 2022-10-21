@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <TextBox Name="txtCode" HorizontalAlignment="Left" Margin="337,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" Height="356"/>
+        <Label Name="lblCode" Content="Enter your python code below" HorizontalAlignment="Left" Margin="337,29,0,0" VerticalAlignment="Top" Width="356"/>
+        <Button Name="btnCode" Content="submit" HorizontalAlignment="Left"  Margin="693,29,0,0" VerticalAlignment="Top" Width="55" Height="21" Click="handleSubmit"/>
+        <Button Name="btnStatus" Content="Get Status" HorizontalAlignment="Left" Margin="121,287,0,0" VerticalAlignment="Top" Width="98" Height="28" Click="handleGetStatus"/>
+        <Label Name="lblStatus" Content="Status" HorizontalAlignment="Left" Margin="96,193,0,0" VerticalAlignment="Top" Width="46"/>
+        <Label Name="lblCompleted" Content="Job Completed" HorizontalAlignment="Left" Margin="56,230,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtStatus" HorizontalAlignment="Left" Margin="147,197,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+        <TextBox Name="txtCompleted" HorizontalAlignment="Left" Margin="148,234,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+
     </Grid>
 </Window>
