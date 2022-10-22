@@ -12,8 +12,8 @@ namespace B_ClientDesktopApp
     {
         // Stub
         int numJobsDone = 5;
-        List<>
-        public Networking_T()
+        //List<>
+        /*public Networking_T()
         {
             Task.Run(() =>
             {
@@ -50,6 +50,6 @@ namespace B_ClientDesktopApp
         private void CheckClientsForJobs()
         {
 
-        }
+        }*/
     }
 }
