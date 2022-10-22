@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -26,7 +27,9 @@ namespace B_ClientDesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        Server_T server_T;
+        Networking_T networking_T;
+        Client client;
         public MainWindow()
         {
             InitializeComponent();
@@ -35,22 +38,33 @@ namespace B_ClientDesktopApp
             testWebAPI();
         }
 
-        private void testWebAPI()
+        private async void testWebAPI()
         {
-            //IPAddress iPAddress = GetIPAddress();
-            //Client client = new Client(ip_address, port, name);
-
-            //RestClient restClient = new RestClient("https://localhost:44305/");
-            //RestRequest restRequest = new RestRequest("api/Clients", Method.Post);
-            //restRequest.AddBody(JsonConvert.SerializeObject(client));
-
-            //RestResponse restResponse = restClient.Execute(restRequest);
-
-            //Console.WriteLine(restResponse.Content);
+            server_T = new Server_T();
+            Task<Client> startingServer = server_T.StartServerThread();
+            client = await startingServer;
+            networking_T = new Networking_T(client);
         }
 
+        private void handleSubmit(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("gui submitting job");
+            server_T.SubmitJob(txtCode.Text);
+            Console.WriteLine("gui fin submit job: " + txtCode.Text);
+        }
 
+        private void handleGetStatus(object sender, RoutedEventArgs e)
+        {
 
+        }
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            server_T.Shutdown();
+        }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

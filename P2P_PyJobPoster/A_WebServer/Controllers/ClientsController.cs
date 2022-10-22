@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,15 +29,39 @@ namespace A_WebServer.Controllers
            * clients.
            */
         // GET: api/Clients
-   
-        [ResponseType(typeof(List<Client>))]
-        public IHttpActionResult GetClients(Client client)
-        {
-            List<Client> clients = db.Clients.ToList();
 
-            if (clients.Contains(client))
+        [Route("api/GetClients/{ip}/{port}")]
+        [HttpGet]
+        [ResponseType(typeof(List<Client>))]
+        public IHttpActionResult GetClients(string ip, int port)
+        {
+            //List<Client> clients = db.Clients.ToList();
+            List<Client> clients = new List<Client>();
+            bool found = false;
+            Debug.WriteLine("api getting clients");
+            Debug.WriteLine("api current list count: " + db.Clients.ToList().Count);
+            foreach (Client client in db.Clients.ToList())
             {
-                clients.Remove(client);
+                Debug.WriteLine("api got client: " + client.ip_address + ":" + client.port);
+                if(client.ip_address.Equals(ip) && client.port.Equals(port))
+                {
+                    Debug.WriteLine("api confirmed client within db: " + client.ip_address + ":" + client.port);
+                    // If it found one that matches, then will return the list.
+                    // Otherwise wont return anything.
+                    // Client needs to be in the swarm in order to retrieve the list of the other clients.
+                    found = true;
+
+                }
+                else
+                {
+                    Debug.WriteLine("api added client from db to list: " + client.ip_address + ":" + client.port);
+                    //clients.Remove(client);
+                    clients.Add(client);
+                }
+            }
+            if (found)
+            {
+                Debug.WriteLine("api returning list of size: " +clients.Count);
                 return Ok(clients);
             }
             else
@@ -94,6 +119,7 @@ namespace A_WebServer.Controllers
         }
 
         // POST: api/Clients
+        [HttpPost]
         [ResponseType(typeof(Client))]
         public IHttpActionResult RegisterClient(Client client)
         {
@@ -109,6 +135,7 @@ namespace A_WebServer.Controllers
         }
 
         // DELETE: api/Clients/5
+        [HttpDelete]
         [ResponseType(typeof(Client))]
         public IHttpActionResult DeleteClient(int id)
         {
@@ -120,6 +147,29 @@ namespace A_WebServer.Controllers
 
             db.Clients.Remove(client);
             db.SaveChanges();
+
+            return Ok(client);
+        }
+        // DELETE: api/Clients/5
+        [HttpDelete]
+        [ResponseType(typeof(Client))]
+        public IHttpActionResult UnregisterClient(Client client)
+        {
+            bool found = false;
+            List<Client> clients = db.Clients.ToList();
+            foreach(Client c in clients)
+            { 
+                if(c.ip_address.Equals(client.ip_address) && c.port.Equals(client.port))
+                {
+                    db.Clients.Remove(c);
+                    db.SaveChanges();
+                    found = true;
+                }
+            }
+            if (found == false)
+            {
+                return NotFound();
+            }
 
             return Ok(client);
         }
@@ -136,6 +186,16 @@ namespace A_WebServer.Controllers
         private bool ClientExists(int id)
         {
             return db.Clients.Count(e => e.id == id) > 0;
+        }
+
+        internal void ResetDb()
+        {
+            //static List<Client> clients = db.Clients.ToList();
+            foreach (Client entry in db.Clients.ToList())
+            {
+                db.Clients.Remove(entry);
+            }
+            db.SaveChanges();
         }
     }
 }

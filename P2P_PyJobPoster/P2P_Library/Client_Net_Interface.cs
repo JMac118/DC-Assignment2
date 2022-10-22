@@ -10,9 +10,10 @@ namespace P2P_Library
     [ServiceContract]
     public interface Client_Net_Interface
     {
-        // Will need to be the Iron Python thing.
-        // Jobs are python jobs, this is a test stub method.
         [OperationContract]
-        string GetJobs();
+        Job GetJob();
+
+        [OperationContract]
+        bool SubmitAnswer(Job job, string result);
     }
 }

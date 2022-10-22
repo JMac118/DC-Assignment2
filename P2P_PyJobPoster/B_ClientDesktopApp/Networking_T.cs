@@ -1,9 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Numerics;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using P2P_Library;
+using RestSharp;
+using RestSharp.Authenticators;
+using static IronPython.Modules._ast;
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
 
 namespace B_ClientDesktopApp
 {
@@ -11,45 +20,134 @@ namespace B_ClientDesktopApp
     internal class Networking_T
     {
         // Stub
-        int numJobsDone = 5;
-        List<>
-        public Networking_T()
+        int numJobsDone = 0;
+        List<Client> clients;
+        Client serverT;
+
+        ChannelFactory<Client_Net_Interface> factory;
+
+        public Networking_T(Client serverT)
         {
+            this.serverT = serverT;
+            clients = new List<Client>();
             Task.Run(() =>
             {
-                StartNetworkThread();
+                StartNetworkThreadAsync();
             });
         }
-        private void StartNetworkThread()
+        private async Task StartNetworkThreadAsync()
         {
             // Loops over looking for new clients
             // Then check each client for jobs
             while(true)
             {
-                LookForNewClients();
+                await LookForNewClientsAsync();
                 CheckClientsForJobs();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(20000);
             }
         }
 
-        public async Task<int> GetJobsDone() 
+        public int GetJobsDone() 
         { 
-            return await GetNumJobsDone;
+            return numJobsDone;
         }
 
-        private int GetNumJobsDone()
+        public bool CheckIfBusy()
         {
-
+            return false;
         }
 
-        private void LookForNewClients()
+        private async Task LookForNewClientsAsync()
         {
+            //Client client = new Client(ip_address, port, name);
 
+            RestClient restClient = new RestClient("https://localhost:44305/");
+            RestRequest restRequest = new RestRequest("api/GetClients/" + serverT.ip_address + "/" + serverT.port, Method.Get);
+            //restRequest.AddBody(JsonConvert.SerializeObject(client));
+
+            RestResponse restResponse = await restClient.ExecuteAsync(restRequest);
+
+            clients = JsonConvert.DeserializeObject<List<Client>>(restResponse.Content);
+            Console.WriteLine("networkT retrieved list of clients");
+            Console.WriteLine(clients.Count);
+            foreach(Client client in clients)
+            {
+                Console.WriteLine("NetT Got client: " + client.ip_address + ":" + client.port);
+            }
+            //Console.WriteLine(restResponse.Content);
         }
 
         private void CheckClientsForJobs()
         {
+            foreach(Client client in clients)
+            {
+                try
+                {
+                    NetTcpBinding tcp = new NetTcpBinding();
 
+                    string URL = "net.tcp://" + client.ip_address + ":" + client.port;
+                    factory = new ChannelFactory<Client_Net_Interface>(tcp, URL);
+                    Client_Net_Interface client_net = factory.CreateChannel();
+                    /*List<string> jobs = client_net.GetJobs();
+                    if(jobs != null)
+                    {
+                        //Do the jobs
+                        Console.WriteLine(jobs);
+                    }*/
+                    Console.WriteLine("netT attempting to get job from: " + client.ip_address + ":" + client.port);
+                    Job job = client_net.GetJob();
+                    if (job != null)
+                    {
+                        // Do the job
+                        string resultString = PerformTask(job);
+                        Console.WriteLine("netT doing job: " + client.ip_address + ":" + client.port);
+                        client_net.SubmitAnswer(job, resultString);
+                    }
+                }
+                catch(Exception exc)
+                {
+                    Console.WriteLine("Checking for jobs and got an exception: " + exc.ToString());
+                }
+            }
+        }
+
+        private string PerformTask(Job job)
+        {
+            try
+            {
+                //string pyDef = "def run_func(): \n";
+
+                //pyDef = pyDef + job.Work;
+                string pyDef = job.Work;
+
+                ScriptEngine engine = Python.CreateEngine();
+                ScriptScope scope = engine.CreateScope();
+                engine.Execute(pyDef, scope);
+                dynamic runFunction = scope.GetVariable("run_func");
+                var result = runFunction();
+                Console.WriteLine(result);
+
+                return result.ToString();
+            }
+            catch(Exception exc)
+            {
+                return "failed";
+            }
+
+
+            //string pyDef = "def run_func(var1, var2): return var1+var2";
+            //int var1, var2;
+            //var1 = 2;
+            //var2 = 5;
+            //string pyDef = "def run_func(): return ";
+
+            //ScriptEngine engine = Python.CreateEngine();
+            //ScriptSource source = engine.CreateScriptSourceFromString(job.Work);
+            //ScriptScope scope = engine.CreateScope();
+            //dynamic outcome = source.Execute(scope);
+            //Console.WriteLine(outcome.ToString());
+            //Console.WriteLine(outcome);
+            //return outcome.ToString();
         }
     }
 }

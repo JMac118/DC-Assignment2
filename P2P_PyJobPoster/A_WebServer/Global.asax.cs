@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using A_WebServer.Controllers;
 
 namespace A_WebServer
 {
@@ -18,6 +19,8 @@ namespace A_WebServer
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ClientsController cliCont = new ClientsController();
+            cliCont.ResetDb();
         }
     }
 }
