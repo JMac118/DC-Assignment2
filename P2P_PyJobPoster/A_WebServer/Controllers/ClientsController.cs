@@ -209,6 +209,7 @@ namespace A_WebServer.Controllers
                 catch(Exception)
                 {
                     db.Clients.Remove(client);
+                    db.SaveChanges();
                 }
             }
         }
