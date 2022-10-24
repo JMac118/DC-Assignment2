@@ -105,7 +105,7 @@ namespace B_ClientDesktopApp
                         SHA256 sha256Hash = SHA256.Create();
                         byte[] hash = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(job.Work));
 
-                        if (Array.Equals(job.Hash, hash))
+                        if (job.Hash.ToString().Equals(hash.ToString()))
                         {
                             // Do the job
                             string resultString = PerformTask(job);
