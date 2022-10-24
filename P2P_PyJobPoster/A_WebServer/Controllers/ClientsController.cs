@@ -7,9 +7,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.ServiceModel;
 using System.Web.Http;
 using System.Web.Http.Description;
 using A_WebServer.Models;
+using P2P_Library;
 
 namespace A_WebServer.Controllers
 {
@@ -172,6 +174,28 @@ namespace A_WebServer.Controllers
             }
 
             return Ok(client);
+        }
+
+        public void CheckConnections()
+        {
+            List<Client> clients = db.Clients.ToList();
+            foreach (Client client in clients)
+            {
+                try
+                {
+                    NetTcpBinding tcp = new NetTcpBinding();
+
+                    string URL = "net.tcp://" + client.ip_address + ":" + client.port;
+                    ChannelFactory<Client_Net_Interface> factory = new ChannelFactory<Client_Net_Interface>(tcp, URL);
+                    Client_Net_Interface client_net = factory.CreateChannel();
+
+                    client_net.GetJob();
+                }
+                catch(Exception)
+                {
+                    db.Clients.Remove(client);
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
