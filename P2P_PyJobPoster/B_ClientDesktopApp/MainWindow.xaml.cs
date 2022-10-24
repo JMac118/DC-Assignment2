@@ -33,8 +33,6 @@ namespace B_ClientDesktopApp
         public MainWindow()
         {
             InitializeComponent();
-
-
             testWebAPI();
         }
 
@@ -55,7 +53,16 @@ namespace B_ClientDesktopApp
 
         private void handleGetStatus(object sender, RoutedEventArgs e)
         {
+            if (networking_T.CheckIfBusy())
+            {
+                txtStatus.Text = "Working on job";
+            }
+            else 
+            {
+                txtStatus.Text = "Not working on job";
+            }
 
+            txtCompleted.Text = networking_T.GetJobsDone().ToString();
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {

@@ -13,6 +13,7 @@ using RestSharp.Authenticators;
 using static IronPython.Modules._ast;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
+using static Community.CsharpSqlite.Sqlite3;
 
 namespace B_ClientDesktopApp
 {
@@ -23,6 +24,7 @@ namespace B_ClientDesktopApp
         int numJobsDone = 0;
         List<Client> clients;
         Client serverT;
+        bool isBusy = false;
 
         ChannelFactory<Client_Net_Interface> factory;
 
@@ -54,7 +56,7 @@ namespace B_ClientDesktopApp
 
         public bool CheckIfBusy()
         {
-            return false;
+            return isBusy;
         }
 
         private async Task LookForNewClientsAsync()
@@ -118,6 +120,8 @@ namespace B_ClientDesktopApp
                 //string pyDef = "def run_func(): \n";
 
                 //pyDef = pyDef + job.Work;
+                isBusy = true;
+
                 string pyDef = job.Work;
 
                 ScriptEngine engine = Python.CreateEngine();
@@ -126,11 +130,13 @@ namespace B_ClientDesktopApp
                 dynamic runFunction = scope.GetVariable("run_func");
                 var result = runFunction();
                 Console.WriteLine(result);
+                isBusy = false;
 
                 return result.ToString();
             }
             catch(Exception exc)
             {
+                isBusy = false;
                 return "failed";
             }
 
