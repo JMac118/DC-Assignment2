@@ -128,6 +128,7 @@ namespace B_ClientDesktopApp
                             string resultString = PerformTask(job);
                             Console.WriteLine("netT doing job: " + client.ip_address + ":" + client.port);
                             client_net.SubmitAnswer(job, resultString);
+                            numJobsDone++;
                         }
                         else
                         {
