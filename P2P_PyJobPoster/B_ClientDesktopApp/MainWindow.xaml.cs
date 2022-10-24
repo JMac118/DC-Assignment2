@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IronPython.Runtime.Exceptions;
 using Newtonsoft.Json;
 using P2P_Library;
 using RestSharp;
@@ -88,7 +89,7 @@ namespace B_ClientDesktopApp
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
