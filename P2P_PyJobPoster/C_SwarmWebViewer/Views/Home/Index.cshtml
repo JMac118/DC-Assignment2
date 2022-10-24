@@ -9,7 +9,7 @@
     <div id="cntTable">
         <h3>Clients</h3>
             <br />
-            <table>
+            <table id="tableClient">
                 <thead>
                     <tr>
                         <th>IP Address</th>
@@ -17,6 +17,7 @@
                         <th>No. Completed Jobs</th>
                     </tr>
                 </thead>
+                <tbody>
                 @foreach(var stat in Model.Stats)
                 {
                     <tr>
@@ -25,6 +26,13 @@
                         <td>@stat.NumCompleted</td>
                     </tr>
                 }
+                </tbody>
             </table>
     </div>
 </div>
+
+<script language="javascript">
+    window.setTimeout(function(){
+       window.location.reload(1);
+    }, 60000);
+</script>

@@ -18,7 +18,7 @@ namespace C_SwarmWebViewer.Controllers
         public IActionResult Index()
         {
             RestClient restClient = new RestClient("https://localhost:44305/");
-            RestRequest restRequest = new RestRequest("api/Client", Method.Get);
+            RestRequest restRequest = new RestRequest("api/Clients", Method.Get);
             RestResponse restResponse = restClient.Execute(restRequest);
 
             List<Client> clients = JsonConvert.DeserializeObject<List<Client>>(restResponse.Content);

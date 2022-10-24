@@ -2,117 +2,118 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
 using A_WebServer.Models;
 
 namespace A_WebServer.Controllers
 {
-    public class JobsController : Controller
+    public class JobsController : ApiController
     {
         private clientDBEntities db = new clientDBEntities();
 
-        // GET: Jobs
-        public ActionResult Index()
+        // GET: api/Jobs
+        public List<Job> GetJobs()
         {
-            return View(db.Jobs.ToList());
+            return db.Jobs.ToList();
         }
 
-        // GET: Jobs/Details/5
-        public ActionResult Details(int? id)
+        // GET: api/Jobs/5
+        [ResponseType(typeof(Job))]
+        public IHttpActionResult GetJob(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Job job = db.Jobs.Find(id);
             if (job == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(job);
+
+            return Ok(job);
         }
 
-        // GET: Jobs/Create
-        public ActionResult Create()
+        // PUT: api/Jobs/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutJob(int id, Job job)
         {
-            return View();
-        }
-
-        // POST: Jobs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,clientId")] Job job)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Jobs.Add(job);
+                return BadRequest(ModelState);
+            }
+
+            if (id != job.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(job).State = EntityState.Modified;
+
+            try
+            {
                 db.SaveChanges();
-                return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!JobExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return View(job);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: Jobs/Edit/5
-        public ActionResult Edit(int? id)
+        // POST: api/Jobs
+        [ResponseType(typeof(Job))]
+        public IHttpActionResult PostJob(Job job)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return BadRequest(ModelState);
             }
-            Job job = db.Jobs.Find(id);
-            if (job == null)
-            {
-                return HttpNotFound();
-            }
-            return View(job);
-        }
 
-        // POST: Jobs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,clientId")] Job job)
-        {
-            if (ModelState.IsValid)
+            db.Jobs.Add(job);
+
+            try
             {
-                db.Entry(job).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(job);
+            catch (DbUpdateException)
+            {
+                if (JobExists(job.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtRoute("DefaultApi", new { id = job.Id }, job);
         }
 
-        // GET: Jobs/Delete/5
-        public ActionResult Delete(int? id)
+        // DELETE: api/Jobs/5
+        [ResponseType(typeof(Job))]
+        public IHttpActionResult DeleteJob(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Job job = db.Jobs.Find(id);
             if (job == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(job);
-        }
 
-        // POST: Jobs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Job job = db.Jobs.Find(id);
             db.Jobs.Remove(job);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Ok(job);
         }
 
         protected override void Dispose(bool disposing)
@@ -122,6 +123,11 @@ namespace A_WebServer.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool JobExists(int id)
+        {
+            return db.Jobs.Count(e => e.Id == id) > 0;
         }
     }
 }
