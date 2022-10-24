@@ -14,6 +14,7 @@ using static IronPython.Modules._ast;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using static Community.CsharpSqlite.Sqlite3;
+using System.Threading;
 
 namespace B_ClientDesktopApp
 {
@@ -130,6 +131,8 @@ namespace B_ClientDesktopApp
                 dynamic runFunction = scope.GetVariable("run_func");
                 var result = runFunction();
                 Console.WriteLine(result);
+
+                Thread.Sleep(10000);
                 isBusy = false;
 
                 return result.ToString();

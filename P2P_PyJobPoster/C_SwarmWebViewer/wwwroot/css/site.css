@@ -30,13 +30,6 @@ thead {
     background-color: cornflowerblue;
 }
 
-tbody {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-}
-
 tr {
     margin-bottom: 10px;
     border-bottom: 1px solid cornflowerblue;
