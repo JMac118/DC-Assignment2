@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,13 +95,38 @@ namespace B_ClientDesktopApp
 
 
         }
-        public void SubmitJob(string work)
+        public void SubmitJob(string work, byte[] hash)
         {
             Console.WriteLine("client server got work: " + work);
-            Job job = new Job(jobsCurrent, work);
-            jobsCurrent++;
-            jobs.Add(job);
-            Console.WriteLine("client server currently has jobs: " + jobs);
+
+            string str64Work;
+
+            if (String.IsNullOrEmpty(work))
+            {
+                str64Work = work;
+            }
+            else
+            {
+                byte[] encodedBytes = Convert.FromBase64String(work);
+                str64Work = Encoding.UTF8.GetString(encodedBytes);
+            }
+
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] hash2 = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(str64Work));
+
+                if (hash.Equals(hash2))
+                {
+                    Job job = new Job(jobsCurrent, str64Work);
+                    jobsCurrent++;
+                    jobs.Add(job);
+                    Console.WriteLine("client server currently has jobs: " + jobs);
+                }
+                else
+                {
+                    Console.WriteLine("Hash not matching");
+                }
+            }
         }
 
         private IPAddress GetIPAddress()

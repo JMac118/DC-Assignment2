@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,8 +48,24 @@ namespace B_ClientDesktopApp
         private void handleSubmit(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("gui submitting job");
-            server_T.SubmitJob(txtCode.Text);
-            Console.WriteLine("gui fin submit job: " + txtCode.Text);
+            string job;
+
+            if(String.IsNullOrEmpty(txtCode.Text))
+            {
+                job = txtCode.Text;
+            }
+            else
+            {
+                byte[] txtBytes = Encoding.UTF7.GetBytes(txtCode.Text);
+                job = Convert.ToBase64String(txtBytes);
+            }
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] hash = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(job));
+                server_T.SubmitJob(job, hash);
+                Console.WriteLine("gui fin submit job: " + job);
+            }
+           
         }
 
         private void handleGetStatus(object sender, RoutedEventArgs e)
