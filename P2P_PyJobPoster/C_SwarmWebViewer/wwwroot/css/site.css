@@ -16,3 +16,40 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+table#tableClients {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid cornflowerblue;
+    height: 70%;
+    width: 90%;
+    margin: auto;
+}
+
+thead {
+    background-color: cornflowerblue;
+}
+
+tbody {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+tr {
+    margin-bottom: 10px;
+    border-bottom: 1px solid cornflowerblue;
+}
+
+th {
+    width: 20%;
+    height: 45px;
+    color: white;
+}
+
+td {
+    width: 20%;
+    height: 45px;
+    font-size: small;
+}
