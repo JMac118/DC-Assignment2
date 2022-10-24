@@ -105,12 +105,17 @@ namespace B_ClientDesktopApp
                         SHA256 sha256Hash = SHA256.Create();
                         byte[] hash = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(job.Work));
 
-                        Array.Equals()
-
-                        // Do the job
-                        string resultString = PerformTask(job);
-                        Console.WriteLine("netT doing job: " + client.ip_address + ":" + client.port);
-                        client_net.SubmitAnswer(job, resultString);
+                        if (Array.Equals(job.Hash, hash))
+                        {
+                            // Do the job
+                            string resultString = PerformTask(job);
+                            Console.WriteLine("netT doing job: " + client.ip_address + ":" + client.port);
+                            client_net.SubmitAnswer(job, resultString);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Hash not matching");
+                        }
                     }
                 }
                 catch(Exception exc)
@@ -130,6 +135,13 @@ namespace B_ClientDesktopApp
                 isBusy = true;
 
                 string pyDef = job.Work;
+
+                if (!String.IsNullOrEmpty(job.Work))
+                {
+                    byte[] encodedStr = Convert.FromBase64String(job.Work);
+                    pyDef = Encoding.UTF8.GetString(encodedStr);
+                }
+                
 
                 ScriptEngine engine = Python.CreateEngine();
                 ScriptScope scope = engine.CreateScope();
