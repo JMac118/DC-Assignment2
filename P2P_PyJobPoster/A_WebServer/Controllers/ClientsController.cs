@@ -178,6 +178,29 @@ namespace A_WebServer.Controllers
             return Ok(client);
         }
 
+        // GET: api/Clients/5
+        [Route("api/GetMyClientId")]
+        [HttpPost]
+        [ResponseType(typeof(int))]
+        public IHttpActionResult GetMyClientId(Client client)
+        {
+            List<Client> clients = db.Clients.ToList();
+            foreach( Client c in clients)
+            {
+                if(c.ip_address==client.ip_address && c.port==client.port)
+                {
+                    return Ok(c.id);
+                }
+            }
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return NotFound();
+        }
+
+
         internal void StartClientCheckTask()
         {
             //Timer timer = new Timer(CheckConnections, null, 5000, 5000);

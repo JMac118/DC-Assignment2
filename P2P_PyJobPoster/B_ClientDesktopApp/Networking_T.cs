@@ -72,12 +72,23 @@ namespace B_ClientDesktopApp
 
             RestResponse restResponse = await restClient.ExecuteAsync(restRequest);
 
-            clients = JsonConvert.DeserializeObject<List<Client>>(restResponse.Content);
-            Console.WriteLine("networkT retrieved list of clients");
-            Console.WriteLine(clients.Count);
-            foreach(Client client in clients)
+            try
             {
-                Console.WriteLine("NetT Got client: " + client.ip_address + ":" + client.port);
+                List<Client> clientsTemp = JsonConvert.DeserializeObject<List<Client>>(restResponse.Content);
+                if(clientsTemp != null)
+                {
+                    clients = clientsTemp;
+                }
+                Console.WriteLine("networkT retrieved list of clients");
+                Console.WriteLine(clients.Count);
+                foreach (Client client in clients)
+                {
+                    Console.WriteLine("NetT Got client: " + client.ip_address + ":" + client.port);
+                }
+            }
+            catch(Exception exc)
+            {
+                Console.WriteLine("Null clients list");
             }
             //Console.WriteLine(restResponse.Content);
         }

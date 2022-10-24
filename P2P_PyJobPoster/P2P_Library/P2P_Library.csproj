@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Client_Net.cs" />
     <Compile Include="Client_Net_Interface.cs" />
+    <Compile Include="FinishedJob.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />

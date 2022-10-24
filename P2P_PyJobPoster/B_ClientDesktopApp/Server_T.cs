@@ -65,6 +65,14 @@ namespace B_ClientDesktopApp
             jobsDone++;
             jobsCurrent--;
             //jobs.Remove(result.Job);
+            FinishedJob finishedJob = new FinishedJob(result.CompletedWork, (int)client.id);
+
+            RestClient restClient = new RestClient("https://localhost:44305/");
+            RestRequest restRequest = new RestRequest("api/Jobs", Method.Post);
+            restRequest.AddBody(JsonConvert.SerializeObject(finishedJob));
+
+            RestResponse restResponse = restClient.Execute(restRequest);
+
             Console.WriteLine("Server finished a job: " + result.Job + ", result given was: " + result.CompletedWork);
         }
 
@@ -125,7 +133,18 @@ namespace B_ClientDesktopApp
 
             RestResponse restResponse = restClient.Execute(restRequest);
 
-            Console.WriteLine(restResponse.Content);
+            RestClient restClient2 = new RestClient("https://localhost:44305/");
+            RestRequest restRequest2 = new RestRequest("api/GetMyClientId", Method.Post);
+            restRequest2.AddBody(JsonConvert.SerializeObject(client));
+
+            RestResponse restResponse2 = restClient2.Execute(restRequest2);
+
+            if(restResponse2 != null)
+            {
+                client.id = JsonConvert.DeserializeObject<int>(restResponse2.Content);
+            }
+
+            Console.WriteLine(restResponse2.Content);
         }
 
 

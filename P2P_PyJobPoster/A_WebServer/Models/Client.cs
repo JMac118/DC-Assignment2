@@ -14,7 +14,7 @@ namespace A_WebServer.Models
     
     public partial class Client
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string ip_address { get; set; }
         public int port { get; set; }
         public string name { get; set; }
