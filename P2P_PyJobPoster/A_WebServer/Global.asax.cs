@@ -22,8 +22,10 @@ namespace A_WebServer
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ClientsController cliCont = new ClientsController();
             cliCont.ResetDb();
+            cliCont.StartClientCheckTask();
 
-            Timer timer = new Timer(CheckConnections, null, 15000, 15000);
+            
+            
         }
     }
 }

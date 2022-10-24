@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using A_WebServer.Models;
@@ -176,7 +178,20 @@ namespace A_WebServer.Controllers
             return Ok(client);
         }
 
-        public void CheckConnections()
+        internal void StartClientCheckTask()
+        {
+            //Timer timer = new Timer(CheckConnections, null, 5000, 5000);
+            Task.Run(() =>
+            {
+                while(true)
+                {
+                    CheckConnections();
+                    Thread.Sleep(5000);
+                }
+            });
+        }
+
+        internal void CheckConnections()
         {
             List<Client> clients = db.Clients.ToList();
             foreach (Client client in clients)
