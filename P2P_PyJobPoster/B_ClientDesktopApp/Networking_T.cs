@@ -15,6 +15,7 @@ using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using static Community.CsharpSqlite.Sqlite3;
 using System.Threading;
+using System.Security.Cryptography;
 
 namespace B_ClientDesktopApp
 {
@@ -101,6 +102,11 @@ namespace B_ClientDesktopApp
                     Job job = client_net.GetJob();
                     if (job != null)
                     {
+                        SHA256 sha256Hash = SHA256.Create();
+                        byte[] hash = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(job.Work));
+
+                        Array.Equals()
+
                         // Do the job
                         string resultString = PerformTask(job);
                         Console.WriteLine("netT doing job: " + client.ip_address + ":" + client.port);
