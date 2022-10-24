@@ -26,5 +26,7 @@ namespace P2P_Library
 
         public string Work { get => work; set => work = value; }
         public int Id { get => id; set => id = value; }
+
+        public byte[] Hash { get => hash; set => hash = value; }
     }
 }
