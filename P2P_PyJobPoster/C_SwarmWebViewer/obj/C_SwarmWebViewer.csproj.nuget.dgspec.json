@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Sharron\\Source\\Repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj": {}
+    "C:\\Users\\Sharron\\source\\repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Sharron\\Source\\Repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj": {
+    "C:\\Users\\Sharron\\source\\repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Sharron\\Source\\Repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj",
+        "projectUniqueName": "C:\\Users\\Sharron\\source\\repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj",
         "projectName": "C_SwarmWebViewer",
-        "projectPath": "C:\\Users\\Sharron\\Source\\Repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj",
+        "projectPath": "C:\\Users\\Sharron\\source\\repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\C_SwarmWebViewer.csproj",
         "packagesPath": "C:\\Users\\Sharron\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Sharron\\Source\\Repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\obj\\",
+        "outputPath": "C:\\Users\\Sharron\\source\\repos\\JMac118\\DC-Assignment2\\P2P_PyJobPoster\\C_SwarmWebViewer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Sharron\\AppData\\Roaming\\NuGet\\NuGet.Config",
