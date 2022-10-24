@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'F:\Uni\DC-Assignment2\P2P_PyJobPoster\A_WebServer\Models\ClientModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Sharron\source\repos\JMac118\DC-Assignment2\P2P_PyJobPoster\A_WebServer\Models\ClientModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

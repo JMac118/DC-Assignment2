@@ -18,9 +18,9 @@ namespace A_WebServer.Controllers
         private clientDBEntities db = new clientDBEntities();
 
         // GET: api/Clients
-        public IQueryable<Client> GetClients()
+        public List<Client> GetClients()
         {
-            return db.Clients;
+            return db.Clients.ToList();
         }
 
         /* 
