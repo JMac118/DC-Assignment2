@@ -27,6 +27,7 @@ namespace B_ClientDesktopApp
         List<Client> clients;
         Client serverT;
         bool isBusy = false;
+        private static Random rnd = new Random();
 
         ChannelFactory<Client_Net_Interface> factory;
 
@@ -81,8 +82,24 @@ namespace B_ClientDesktopApp
             //Console.WriteLine(restResponse.Content);
         }
 
+        private void ShuffleList(List<Client> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rnd.Next(n + 1);
+                Client value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+
+
         private void CheckClientsForJobs()
         {
+            ShuffleList(clients);
+
             foreach(Client client in clients)
             {
                 try
