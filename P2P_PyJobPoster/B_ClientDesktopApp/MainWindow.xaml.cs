@@ -56,7 +56,7 @@ namespace B_ClientDesktopApp
             }
             else
             {
-                byte[] txtBytes = Encoding.UTF7.GetBytes(txtCode.Text);
+                byte[] txtBytes = Encoding.UTF8.GetBytes(txtCode.Text);
                 job = Convert.ToBase64String(txtBytes);
             }
             using (SHA256 sha256Hash = SHA256.Create())
