@@ -94,7 +94,7 @@ namespace B_ClientDesktopApp
 
         private void handleCrash(object sender, RoutedEventArgs e)
         {
-            throw new ApplicationException();
+            System.Environment.Exit(1);
         }
     }
 }
