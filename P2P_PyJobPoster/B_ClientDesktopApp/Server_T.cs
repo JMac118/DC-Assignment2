@@ -98,7 +98,7 @@ namespace B_ClientDesktopApp
         {
             Console.WriteLine("client server got work: " + work);
 
-            Job job = new Job(jobsCurrent, work);
+            Job job = new Job(jobsCurrent, work, hash);
 
             jobsCurrent++;
             jobs.Add(job);

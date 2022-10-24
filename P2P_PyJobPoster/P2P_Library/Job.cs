@@ -13,11 +13,14 @@ namespace P2P_Library
         [DataMember]
         string work;
         [DataMember]
+        byte[] hash;
+        [DataMember]
         int id;
-        public Job(int id, string work)
+        public Job(int id, string work, byte[] hash)
         {
             this.id = id;
             this.work = work;
+            this.hash = hash;
         }
 
 
