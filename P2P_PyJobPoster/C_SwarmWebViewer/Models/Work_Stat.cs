@@ -2,7 +2,7 @@
 {
     public class Work_Stat
     {
-        public int ClientId { get; set; }
+        public Client? Client { get; set; }
         public int NumCompleted { get; set; }
     }
 }

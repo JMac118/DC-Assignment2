@@ -2,8 +2,9 @@
 {
     public class Client
     {
-        public string? ip_address { get; set; }
-        public int port { get; set; }
-        public string? name { get; set; }
+        public int Id { get; set; }
+        public string? Ip_address { get; set; }
+        public int Port { get; set; }
+        public string? Name { get; set; }
     }
 }

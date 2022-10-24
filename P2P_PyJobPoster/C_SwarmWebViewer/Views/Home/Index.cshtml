@@ -1,8 +1,30 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    @using C_SwarmWebViewer.Models
+    @model MyModel;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div id="cntTable">
+        <h3>Clients</h3>
+            <br />
+            <table>
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Port</th>
+                        <th>No. Completed Jobs</th>
+                    </tr>
+                </thead>
+                @foreach(var stat in Model.Stats)
+                {
+                    <tr>
+                        <td>@stat.Client?.Ip_address</td>
+                        <td>@stat.Client?.Port</td>
+                        <td>@stat.NumCompleted</td>
+                    </tr>
+                }
+            </table>
+    </div>
 </div>
