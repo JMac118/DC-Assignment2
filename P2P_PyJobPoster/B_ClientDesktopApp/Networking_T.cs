@@ -24,7 +24,7 @@ namespace B_ClientDesktopApp
     {
         // Stub
         int numJobsDone = 0;
-        List<Client> clients;
+        static List<Client> clients;
         Client serverT;
         bool isBusy = false;
         private static Random rnd = new Random();
