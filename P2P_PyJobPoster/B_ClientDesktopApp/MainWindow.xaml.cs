@@ -89,7 +89,12 @@ namespace B_ClientDesktopApp
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            
+        }
+
+        private void handleCrash(object sender, RoutedEventArgs e)
+        {
+            throw new ApplicationException();
         }
     }
 }
